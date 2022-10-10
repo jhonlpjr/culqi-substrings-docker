@@ -1,0 +1,29 @@
+version: "3.7"
+services:
+  node:
+      image: node:14-alpine
+      container_name: node
+      working_dir: /var/www
+      volumes:
+         - ./:/var/www
+      tty: true
+      ports:
+         - "3000:3000"
+      networks:
+         app:
+      depends_on:
+         - mongodb
+      command: sh -c "npm install && npm run start:dev"
+  mongodb:
+      image: mongo:5.0
+      container_name: mongodb
+      ports:
+        - 8081:27017
+      #environment:
+      #   - MONGO_REPLICA_HOST=mongodb
+      #   - MONGO_INITDB_ROOT_USERNAME=culqi
+      #   - MONGO_INITDB_ROOT_PASSWORD=culqi123
+      networks:
+        app:
+networks:
+   app:
